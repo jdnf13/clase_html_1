@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de 50 Propiedades CSS3 - Generador de PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #3a5699;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-pdf {
+            background-color: #e74c3c;
+        }
+        
+        .btn-pdf:hover {
+            background-color: #c0392b;
+        }
+        
+        .properties-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .property-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #4b6cb7;
+        }
+        
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .property-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .property-name {
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .property-category {
+            font-size: 0.8rem;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .property-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .property-example {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #4b6cb7;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #4b6cb7;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .category-btn.active {
+            background-color: #4b6cb7;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .properties-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>50 Propiedades CSS3 Más Usadas</h1>
+            <p class="subtitle">Definiciones, ejemplos y usos de las propiedades CSS más comunes. Genera un PDF con toda la información.</p>
+        </header>
+        
+        <div class="controls">
+            <button class="btn" id="showAllBtn">
+                <i class="fas fa-eye"></i> Mostrar Todas
+            </button>
+            <div class="category-filter" id="categoryFilter"></div>
+            <button class="btn btn-pdf" id="generatePdfBtn">
+                <i class="fas fa-file-pdf"></i> Generar PDF
+            </button>
+        </div>
+        
+        <div id="propertiesContainer" class="properties-grid">
+            <!-- Las propiedades se cargarán aquí con JavaScript -->
+        </div>
+        
+        <footer>
+            <p>Guía de referencia de CSS3 - Para uso educativo y de desarrollo</p>
+            <p>© 2023 - Generado con HTML, CSS y JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Incluir jsPDF para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        // Datos de las 50 propiedades CSS más usadas
+        const cssProperties = [
+            {
+                name: "display",
+                category: "layout",
+                description: "Controla cómo se muestra un elemento en el documento. Define el tipo de caja de representación para un elemento.",
+                example: "display: block;\ndisplay: flex;\ndisplay: grid;\ndisplay: none;"
+            },
+            {
+                name: "position",
+                category: "layout",
+                description: "Especifica el método de posicionamiento para un elemento (estático, relativo, absoluto, fijo o sticky).",
+                example: "position: absolute;\ntop: 10px;\nleft: 20px;"
+            },
+            {
+                name: "width",
+                category: "dimension",
+                description: "Establece el ancho de un elemento. Puede usar valores absolutos (px), relativos (%) o automáticos.",
+                example: "width: 300px;\nwidth: 50%;\nwidth: auto;"
+            },
+            {
+                name: "height",
+                category: "dimension",
+                description: "Establece la altura de un elemento. Puede usar valores absolutos (px), relativos (%) o automáticos.",
+                example: "height: 200px;\nheight: 100vh;\nheight: auto;"
+            },
+            {
+                name: "color",
+                category: "text",
+                description: "Establece el color del texto de un elemento. Puede usar nombres, hexadecimal, RGB, RGBA, HSL, etc.",
+                example: "color: #333;\ncolor: rgb(255, 0, 0);\ncolor: rgba(0, 0, 255, 0.5);"
+            },
+            {
+                name: "background-color",
+                category: "background",
+                description: "Establece el color de fondo de un elemento. Acepta los mismos valores que la propiedad color.",
+                example: "background-color: #f0f0f0;\nbackground-color: transparent;"
+            },
+            {
+                name: "margin",
+                category: "spacing",
+                description: "Establece el espacio externo alrededor de un elemento. Puede tener de 1 a 4 valores (top, right, bottom, left).",
+                example: "margin: 20px;\nmargin: 10px 20px;\nmargin: 10px 20px 15px 5px;"
+            },
+            {
+                name: "padding",
+                category: "spacing",
+                description: "Establece el espacio interno entre el contenido y el borde de un elemento.",
+                example: "padding: 15px;\npadding: 10px 20px;"
+            },
+            {
+                name: "font-size",
+                category: "text",
+                description: "Establece el tamaño de la fuente. Puede usar px, em, rem, %, vw, vh, o palabras clave como small, medium, large.",
+                example: "font-size: 16px;\nfont-size: 1.2rem;\nfont-size: 120%;"
+            },
+            {
+                name: "font-family",
+                category: "text",
+                description: "Especifica la fuente o familia de fuentes para el texto de un elemento.",
+                example: "font-family: Arial, sans-serif;\nfont-family: 'Times New Roman', serif;"
+            },
+            {
+                name: "border",
+                category: "border",
+                description: "Propiedad abreviada para establecer el ancho, estilo y color del borde de un elemento.",
+                example: "border: 1px solid #ccc;\nborder: 2px dashed red;"
+            },
+            {
+                name: "border-radius",
+                category: "border",
+                description: "Redondea las esquinas de un elemento. Puede establecer un radio para cada esquina individualmente.",
+                example: "border-radius: 5px;\nborder-radius: 50%;\nborder-radius: 10px 5px 20px 0;"
+            },
+            {
+                name: "text-align",
+                category: "text",
+                description: "Alinea el texto horizontalmente dentro de su elemento contenedor.",
+                example: "text-align: center;\ntext-align: right;\ntext-align: justify;"
+            },
+            {
+                name: "flex-direction",
+                category: "flexbox",
+                description: "Define la dirección principal en la que se colocan los elementos flexibles dentro del contenedor flex.",
+                example: "flex-direction: row;\nflex-direction: column;"
+            },
+            {
+                name: "justify-content",
+                category: "flexbox",
+                description: "Alinea los elementos flexibles a lo largo del eje principal del contenedor flex.",
+                example: "justify-content: center;\njustify-content: space-between;"
+            },
+            {
+                name: "align-items",
+                category: "flexbox",
+                description: "Alinea los elementos flexibles a lo largo del eje transversal del contenedor flex.",
+                example: "align-items: center;\nalign-items: flex-start;"
+            },
+            {
+                name: "grid-template-columns",
+                category: "grid",
+                description: "Define las columnas de un contenedor grid especificando el tamaño de cada columna.",
+                example: "grid-template-columns: 1fr 1fr 1fr;\ngrid-template-columns: 200px auto 150px;"
+            },
+            {
+                name: "grid-template-rows",
+                category: "grid",
+                description: "Define las filas de un contenedor grid especificando el tamaño de cada fila.",
+                example: "grid-template-rows: auto 100px;\ngrid-template-rows: repeat(3, 1fr);"
+            },
+            {
+                name: "gap",
+                category: "spacing",
+                description: "Establece el espacio entre filas y columnas en contenedores flex y grid (propiedad abreviada para row-gap y column-gap).",
+                example: "gap: 20px;\ngap: 10px 15px;"
+            },
+            {
+                name: "box-shadow",
+                category: "effect",
+                description: "Aplica una o más sombras a la caja de un elemento. Puede controlar desplazamiento, difuminado, extensión y color.",
+                example: "box-shadow: 2px 2px 5px rgba(0,0,0,0.3);\nbox-shadow: inset 0 0 10px #000;"
+            },
+            {
+                name: "opacity",
+                category: "effect",
+                description: "Establece la transparencia de un elemento, donde 1 es completamente opaco y 0 es completamente transparente.",
+                example: "opacity: 0.8;\nopacity: 0.5;"
+            },
+            {
+                name: "transition",
+                category: "animation",
+                description: "Permite cambiar los valores de las propiedades de forma suave durante un período de tiempo determinado.",
+                example: "transition: all 0.3s ease;\ntransition: opacity 0.5s, transform 0.3s;"
+            },
+            {
+                name: "transform",
+                category: "effect",
+                description: "Aplica transformaciones 2D o 3D a un elemento, como rotar, escalar, inclinar o trasladar.",
+                example: "transform: translateX(50px);\ntransform: rotate(45deg);\ntransform: scale(1.2);"
+            },
+            {
+                name: "z-index",
+                category: "layout",
+                description: "Controla el orden de apilamiento de elementos posicionados. Elementos con mayor z-index se colocan sobre los de menor valor.",
+                example: "z-index: 10;\nz-index: 999;"
+            },
+            {
+                name: "overflow",
+                category: "layout",
+                description: "Controla qué sucede cuando el contenido desborda la caja de un elemento.",
+                example: "overflow: hidden;\noverflow: auto;\noverflow: scroll;"
+            },
+            {
+                name: "cursor",
+                category: "interaction",
+                description: "Especifica el tipo de cursor que se mostrará cuando el puntero esté sobre un elemento.",
+                example: "cursor: pointer;\ncursor: help;\ncursor: not-allowed;"
+            },
+            {
+                name: "float",
+                category: "layout",
+                description: "Coloca un elemento al lado izquierdo o derecho de su contenedor, permitiendo que el contenido fluya a su alrededor.",
+                example: "float: left;\nfloat: right;\nfloat: none;"
+            },
+            {
+                name: "clear",
+                category: "layout",
+                description: "Especifica si un elemento puede tener elementos flotantes a sus lados.",
+                example: "clear: both;\nclear: left;\nclear: none;"
+            },
+            {
+                name: "font-weight",
+                category: "text",
+                description: "Establece el grosor o peso de la fuente (delgada, normal, negrita, etc.).",
+                example: "font-weight: bold;\nfont-weight: 700;\nfont-weight: lighter;"
+            },
+            {
+                name: "text-decoration",
+                category: "text",
+                description: "Establece la decoración del texto, como subrayado, tachado o línea superior.",
+                example: "text-decoration: underline;\ntext-decoration: none;\ntext-decoration: line-through;"
+            },
+            {
+                name: "line-height",
+                category: "text",
+                description: "Establece la altura de las líneas de texto. Puede usar valores sin unidad (multiplicador) o con unidades.",
+                example: "line-height: 1.5;\nline-height: 24px;\nline-height: normal;"
+            },
+            {
+                name: "background-image",
+                category: "background",
+                description: "Establece una o más imágenes de fondo para un elemento.",
+                example: "background-image: url('imagen.jpg');\nbackground-image: linear-gradient(to right, red, blue);"
+            },
+            {
+                name: "background-size",
+                category: "background",
+                description: "Especifica el tamaño de las imágenes de fondo. Puede usar valores como cover, contain, o dimensiones específicas.",
+                example: "background-size: cover;\nbackground-size: contain;\nbackground-size: 100px 200px;"
+            },
+            {
+                name: "background-position",
+                category: "background",
+                description: "Establece la posición inicial de cada imagen de fondo.",
+                example: "background-position: center;\nbackground-position: top right;\nbackground-position: 50% 50%;"
+            },
+            {
+                name: "background-repeat",
+                category: "background",
+                description: "Define cómo se repiten las imágenes de fondo.",
+                example: "background-repeat: no-repeat;\nbackground-repeat: repeat-x;\nbackground-repeat: repeat-y;"
+            },
+            {
+                name: "object-fit",
+                category: "image",
+                description: "Especifica cómo un elemento de reemplazo (como img o video) debe redimensionarse para ajustarse a su contenedor.",
+                example: "object-fit: cover;\nobject-fit: contain;\nobject-fit: fill;"
+            },
+            {
+                name: "box-sizing",
+                category: "layout",
+                description: "Define cómo se calculan el ancho y alto total de un elemento (incluyendo o excluyendo padding y border).",
+                example: "box-sizing: border-box;\nbox-sizing: content-box;"
+            },
+            {
+                name: "min-width",
+                category: "dimension",
+                description: "Establece el ancho mínimo de un elemento. El elemento no será más estrecho que este valor.",
+                example: "min-width: 300px;\nmin-width: 50%;"
+            },
+            {
+                name: "max-width",
+                category: "dimension",
+                description: "Establece el ancho máximo de un elemento. El elemento no será más ancho que este valor.",
+                example: "max-width: 1200px;\nmax-width: 100%;"
+            },
+            {
+                name: "min-height",
+                category: "dimension",
+                description: "Establece la altura mínima de un elemento. El elemento no será más bajo que este valor.",
+                example: "min-height: 200px;\nmin-height: 100vh;"
+            },
+            {
+                name: "max-height",
+                category: "dimension",
+                description: "Establece la altura máxima de un elemento. El elemento no será más alto que este valor.",
+                example: "max-height: 500px;\nmax-height: 80vh;"
+            },
+            {
+                name: "visibility",
+                category: "layout",
+                description: "Controla si un elemento es visible. A diferencia de display: none, el espacio del elemento se mantiene reservado.",
+                example: "visibility: hidden;\nvisibility: visible;\nvisibility: collapse;"
+            },
+            {
+                name: "white-space",
+                category: "text",
+                description: "Controla cómo se maneja el espacio en blanco dentro de un elemento.",
+                example: "white-space: nowrap;\nwhite-space: pre;\nwhite-space: normal;"
+            },
+            {
+                name: "text-overflow",
+                category: "text",
+                description: "Especifica cómo se muestra el contenido que desborda cuando overflow está establecido a hidden.",
+                example: "text-overflow: ellipsis;\ntext-overflow: clip;"
+            },
+            {
+                name: "list-style",
+                category: "list",
+                description: "Propiedad abreviada para establecer todas las propiedades de estilo de lista (tipo, imagen, posición).",
+                example: "list-style: none;\nlist-style: square inside;\nlist-style: decimal outside;"
+            },
+            {
+                name: "outline",
+                category: "border",
+                description: "Dibuja una línea alrededor de un elemento, fuera del borde. No afecta el diseño ni las dimensiones del elemento.",
+                example: "outline: 2px solid blue;\noutline: none;"
+            },
+            {
+                name: "resize",
+                category: "interaction",
+                description: "Controla si un elemento es redimensionable por el usuario y en qué direcciones.",
+                example: "resize: both;\nresize: horizontal;\nresize: none;"
+            },
+            {
+                name: "animation",
+                category: "animation",
+                description: "Propiedad abreviada para configurar animaciones CSS con nombre, duración, función de tiempo, retraso, etc.",
+                example: "animation: slide 2s ease 0s infinite alternate;"
+            },
+            {
+                name: "filter",
+                category: "effect",
+                description: "Aplica efectos gráficos como desenfoque, cambio de color o saturación a un elemento.",
+                example: "filter: blur(5px);\nfilter: grayscale(100%);\nfilter: drop-shadow(2px 2px 5px black);"
+            },
+            {
+                name: "flex-wrap",
+                category: "flexbox",
+                description: "Controla si los elementos flexibles se fuerzan a permanecer en una sola línea o pueden fluir en múltiples líneas.",
+                example: "flex-wrap: wrap;\nflex-wrap: nowrap;\nflex-wrap: wrap-reverse;"
+            }
+        ];
+
+        // Categorías disponibles
+        const categories = [
+            { id: "all", name: "Todas" },
+            { id: "layout", name: "Diseño" },
+            { id: "text", name: "Texto" },
+            { id: "spacing", name: "Espaciado" },
+            { id: "border", name: "Bordes" },
+            { id: "background", name: "Fondo" },
+            { id: "flexbox", name: "Flexbox" },
+            { id: "grid", name: "Grid" },
+            { id: "effect", name: "Efectos" },
+            { id: "animation", name: "Animación" },
+            { id: "dimension", name: "Dimensiones" },
+            { id: "interaction", name: "Interacción" },
+            { id: "image", name: "Imágenes" },
+            { id: "list", name: "Listas" }
+        ];
+
+        // Estado actual de filtro
+        let currentFilter = "all";
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategoryFilters();
+            renderProperties(currentFilter);
+            
+            // Configurar eventos
+            document.getElementById('showAllBtn').addEventListener('click', function() {
+                currentFilter = "all";
+                updateActiveFilter();
+                renderProperties(currentFilter);
+            });
+            
+            document.getElementById('generatePdfBtn').addEventListener('click', generatePDF);
+        });
+
+        // Renderizar filtros de categoría
+        function renderCategoryFilters() {
+            const filterContainer = document.getElementById('categoryFilter');
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = `category-btn ${category.id === 'all' ? 'active' : ''}`;
+                button.textContent = category.name;
+                button.dataset.category = category.id;
+                
+                button.addEventListener('click', function() {
+                    currentFilter = this.dataset.category;
+                    updateActiveFilter();
+                    renderProperties(currentFilter);
+                });
+                
+                filterContainer.appendChild(button);
+            });
+        }
+
+        // Actualizar el filtro activo
+        function updateActiveFilter() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.dataset.category === currentFilter) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Renderizar propiedades según filtro
+        function renderProperties(filter) {
+            const container = document.getElementById('propertiesContainer');
+            container.innerHTML = '';
+            
+            // Filtrar propiedades según categoría
+            const filteredProperties = filter === 'all' 
+                ? cssProperties 
+                : cssProperties.filter(prop => prop.category === filter);
+            
+            // Crear tarjetas para cada propiedad
+            filteredProperties.forEach(property => {
+                const card = document.createElement('div');
+                card.className = 'property-card';
+                
+                // Encontrar nombre de categoría para mostrar
+                const categoryName = categories.find(cat => cat.id === property.category).name;
+                
+                card.innerHTML = `
+                    <div class="property-header">
+                        <div class="property-name">${property.name}</div>
+                        <div class="property-category">${categoryName}</div>
+                    </div>
+                    <div class="property-description">${property.description}</div>
+                    <div class="property-example">${property.example}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Si no hay resultados
+            if (filteredProperties.length === 0) {
+                container.innerHTML = '<div class="loading">No se encontraron propiedades para esta categoría</div>';
+            }
+        }
+
+        // Generar PDF
+        function generatePDF() {
+            // Cambiar texto del botón mientras se genera
+            const pdfButton = document.getElementById('generatePdfBtn');
+            const originalText = pdfButton.innerHTML;
+            pdfButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando PDF...';
+            pdfButton.disabled = true;
+            
+            // Usar jsPDF para generar el PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            // Título del documento
+            doc.setFontSize(20);
+            doc.setTextColor(75, 108, 183); // Color azul
+            doc.text('50 Propiedades CSS3 Más Usadas', 105, 20, { align: 'center' });
+            
+            // Subtítulo
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Definiciones y ejemplos de las propiedades CSS más comunes', 105, 30, { align: 'center' });
+            
+            // Fecha
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            doc.setFontSize(10);
+            doc.setTextColor(150, 150, 150);
+            doc.text(`Generado el ${dateStr}`, 105, 38, { align: 'center' });
+            
+            let yPos = 50;
+            let page = 1;
+            
+            // Agregar cada propiedad al PDF
+            cssProperties.forEach((property, index) => {
+                // Si estamos cerca del final de la página, añadir una nueva
+                if (yPos > 270) {
+                    doc.addPage();
+                    page++;
+                    yPos = 20;
+                    
+                    // Añadir número de página
+                    doc.setFontSize(10);
+                    doc.setTextColor(150, 150, 150);
+                    doc.text(`Página ${page}`, 200, 10, { align: 'right' });
+                }
+                
+                // Nombre de la propiedad
+                doc.setFontSize(14);
+                doc.setTextColor(75, 108, 183);
+                doc.text(`${index + 1}. ${property.name}`, 20, yPos);
+                
+                // Categoría
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                const categoryName = categories.find(cat => cat.id === property.category).name;
+                doc.text(`Categoría: ${categoryName}`, 20, yPos + 7);
+                
+                // Descripción
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                const descriptionLines = doc.splitTextToSize(property.description, 170);
+                doc.text(descriptionLines, 20, yPos + 15);
+                
+                // Ejemplo
+                doc.setFontSize(10);
+                doc.setTextColor(50, 50, 50);
+                doc.text('Ejemplo:', 20, yPos + 15 + (descriptionLines.length * 5));
+                
+                doc.setFont("courier");
+                const exampleLines = doc.splitTextToSize(property.example, 170);
+                doc.text(exampleLines, 20, yPos + 22 + (descriptionLines.length * 5));
+                
+                // Restaurar fuente
+                doc.setFont("helvetica");
+                
+                // Línea separadora
+                doc.setDrawColor(200, 200, 200);
+                doc.line(20, yPos + 27 + (descriptionLines.length * 5) + (exampleLines.length * 4), 190, yPos + 27 + (descriptionLines.length * 5) + (exampleLines.length * 4));
+                
+                // Actualizar posición Y para la siguiente propiedad
+                yPos += 35 + (descriptionLines.length * 5) + (exampleLines.length * 4);
+            });
+            
+            // Guardar el PDF
+            doc.save('50-propiedades-css3.pdf');
+            
+            // Restaurar botón
+            pdfButton.innerHTML = originalText;
+            pdfButton.disabled = false;
+            
+            // Mostrar notificación
+            alert('PDF generado correctamente. Se descargará automáticamente.');
+        }
+    </script>
+</body>
+</html>
