@@ -44,3 +44,17 @@ button {
 button:hover {
     background-color: #2980b9;
 }
+
+
+.btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #2980b9;
+}
