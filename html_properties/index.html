@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Etiquetas HTML Esenciales - Generador de PDF</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 0;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-pdf {
+            background-color: #e74c3c;
+        }
+        
+        .btn-pdf:hover {
+            background-color: #c0392b;
+        }
+        
+        .tags-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .tag-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            border-left: 4px solid #3498db;
+            position: relative;
+        }
+        
+        .tag-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .tag-card.semantica {
+            border-left-color: #2ecc71;
+        }
+        
+        .tag-card.formulario {
+            border-left-color: #9b59b6;
+        }
+        
+        .tag-card.contenido {
+            border-left-color: #e67e22;
+        }
+        
+        .tag-card.estructura {
+            border-left-color: #1abc9c;
+        }
+        
+        .tag-card.multimedia {
+            border-left-color: #e74c3c;
+        }
+        
+        .tag-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .tag-name {
+            font-family: 'Courier New', monospace;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2c3e50;
+            background-color: #f8f9fa;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .tag-category {
+            font-size: 0.8rem;
+            background-color: #e9ecef;
+            color: #495057;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        
+        .tag-description {
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .tag-example {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            background-color: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #3498db;
+            color: #2c3e50;
+            margin-top: 10px;
+            overflow-x: auto;
+        }
+        
+        .tag-attributes {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
+        }
+        
+        .attributes-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #7f8c8d;
+            margin-bottom: 8px;
+        }
+        
+        .attributes-list {
+            font-size: 0.85rem;
+            color: #555;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .attribute {
+            background-color: #e8f4fc;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+            margin-top: 30px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+        
+        .category-filter {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .category-btn {
+            padding: 8px 15px;
+            background-color: #e9ecef;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn:hover {
+            background-color: #dee2e6;
+        }
+        
+        .category-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .tag-importance {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            background-color: #f1c40f;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .tags-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Etiquetas HTML Esenciales</h1>
+            <p class="subtitle">Definiciones, ejemplos y atributos principales de las etiquetas HTML más utilizadas en desarrollo web.</p>
+        </header>
+        
+        <div class="controls">
+            <button class="btn" id="showAllBtn">
+                <i class="fas fa-eye"></i> Mostrar Todas
+            </button>
+            <div class="category-filter" id="categoryFilter"></div>
+            <button class="btn btn-pdf" id="generatePdfBtn">
+                <i class="fas fa-file-pdf"></i> Generar PDF
+            </button>
+        </div>
+        
+        <div id="tagsContainer" class="tags-grid">
+            <!-- Las etiquetas se cargarán aquí con JavaScript -->
+        </div>
+        
+        <footer>
+            <p>Guía de referencia HTML - Para uso educativo y de desarrollo</p>
+            <p>© 2023 - Generado con HTML, CSS y JavaScript</p>
+        </footer>
+    </div>
+
+    <!-- Incluir jsPDF para generar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script>
+        // Datos de las etiquetas HTML más usadas
+        const htmlTags = [
+            {
+                name: "!DOCTYPE html",
+                category: "estructura",
+                description: "Declaración que define que el documento es HTML5. Debe ser la primera línea en cualquier documento HTML.",
+                example: "<!DOCTYPE html>\n<html>\n  <head>...</head>\n  <body>...</body>\n</html>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "html",
+                category: "estructura",
+                description: "Elemento raíz de un documento HTML. Contiene todo el contenido de la página web.",
+                example: "<html lang=\"es\">\n  <!-- Contenido de la página -->\n</html>",
+                attributes: ["lang"],
+                importance: "Alta"
+            },
+            {
+                name: "head",
+                category: "estructura",
+                description: "Contiene metadatos sobre el documento, como título, enlaces a CSS, scripts y otros recursos.",
+                example: "<head>\n  <title>Mi página</title>\n  <meta charset=\"UTF-8\">\n  <link rel=\"stylesheet\" href=\"estilos.css\">\n</head>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "body",
+                category: "estructura",
+                description: "Contiene todo el contenido visible de la página web, como texto, imágenes, videos, etc.",
+                example: "<body>\n  <h1>Bienvenido</h1>\n  <p>Contenido de la página</p>\n</body>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "title",
+                category: "estructura",
+                description: "Define el título del documento que se muestra en la pestaña del navegador o en los resultados de búsqueda.",
+                example: "<title>Mi Página Web - Inicio</title>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "meta",
+                category: "estructura",
+                description: "Proporciona metadatos sobre el documento HTML, como codificación de caracteres, descripción, palabras clave, etc.",
+                example: "<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Descripción de mi página\">",
+                attributes: ["charset", "name", "content"],
+                importance: "Alta"
+            },
+            {
+                name: "link",
+                category: "estructura",
+                description: "Establece una relación entre el documento actual y un recurso externo, como hojas de estilo CSS.",
+                example: "<link rel=\"stylesheet\" href=\"estilos.css\">\n<link rel=\"icon\" href=\"favicon.ico\">",
+                attributes: ["rel", "href", "type"],
+                importance: "Alta"
+            },
+            {
+                name: "style",
+                category: "estructura",
+                description: "Contiene reglas CSS para aplicar estilos directamente en el documento HTML.",
+                example: "<style>\n  body { font-family: Arial; }\n  h1 { color: blue; }\n</style>",
+                attributes: [],
+                importance: "Media"
+            },
+            {
+                name: "script",
+                category: "estructura",
+                description: "Se utiliza para insertar o hacer referencia a código JavaScript ejecutable.",
+                example: "",
+                attributes: ["src", "async", "defer"],
+                importance: "Alta"
+            },
+            {
+                name: "h1 a h6",
+                category: "semantica",
+                description: "Encabezados o títulos de secciones. <h1> es el más importante y <h6> el menos importante.",
+                example: "<h1>Título principal</h1>\n<h2>Subtítulo</h2>\n<h3>Sub-subtítulo</h3>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "p",
+                category: "contenido",
+                description: "Define un párrafo de texto. Los navegadores añaden automáticamente un margen antes y después.",
+                example: "<p>Este es un párrafo de texto.</p>\n<p>Este es otro párrafo.</p>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "a",
+                category: "contenido",
+                description: "Crea un hipervínculo a otra página web, archivo, ubicación dentro de la misma página, o dirección de correo.",
+                example: "<a href=\"https://ejemplo.com\">Visitar ejemplo</a>\n<a href=\"#seccion\">Ir a sección</a>",
+                attributes: ["href", "target", "download", "rel"],
+                importance: "Alta"
+            },
+            {
+                name: "img",
+                category: "multimedia",
+                description: "Inserta una imagen en el documento. Es un elemento vacío (sin etiqueta de cierre).",
+                example: "<img src=\"imagen.jpg\" alt=\"Descripción de la imagen\" width=\"300\" height=\"200\">",
+                attributes: ["src", "alt", "width", "height", "loading"],
+                importance: "Alta"
+            },
+            {
+                name: "div",
+                category: "estructura",
+                description: "Contenedor genérico sin significado semántico. Se utiliza para agrupar elementos con fines de estilo.",
+                example: "<div class=\"contenedor\">\n  <p>Contenido aquí</p>\n</div>",
+                attributes: ["class", "id"],
+                importance: "Alta"
+            },
+            {
+                name: "span",
+                category: "contenido",
+                description: "Contenedor en línea genérico sin significado semántico. Útil para aplicar estilos a partes de texto.",
+                example: "<p>Texto <span class=\"destacado\">destacado</span> aquí</p>",
+                attributes: ["class", "id"],
+                importance: "Alta"
+            },
+            {
+                name: "ul",
+                category: "contenido",
+                description: "Crea una lista desordenada (con viñetas). Contiene elementos <li>.",
+                example: "<ul>\n  <li>Elemento 1</li>\n  <li>Elemento 2</li>\n</ul>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "ol",
+                category: "contenido",
+                description: "Crea una lista ordenada (numerada). Contiene elementos <li>.",
+                example: "<ol>\n  <li>Primer elemento</li>\n  <li>Segundo elemento</li>\n</ol>",
+                attributes: ["type", "start", "reversed"],
+                importance: "Alta"
+            },
+            {
+                name: "li",
+                category: "contenido",
+                description: "Representa un elemento de lista dentro de <ul>, <ol> o <menu>.",
+                example: "<li>Elemento de lista</li>\n<li>Otro elemento</li>",
+                attributes: ["value"],
+                importance: "Alta"
+            },
+            {
+                name: "table",
+                category: "contenido",
+                description: "Crea una tabla para mostrar datos tabulares.",
+                example: "<table>\n  <tr><th>Nombre</th><th>Edad</th></tr>\n  <tr><td>Ana</td><td>25</td></tr>\n</table>",
+                attributes: ["border", "cellpadding", "cellspacing"],
+                importance: "Media"
+            },
+            {
+                name: "form",
+                category: "formulario",
+                description: "Contenedor para elementos de formulario como campos de texto, botones, casillas de verificación, etc.",
+                example: "<form action=\"/procesar\" method=\"POST\">\n  <!-- Elementos del formulario -->\n</form>",
+                attributes: ["action", "method", "enctype", "target"],
+                importance: "Alta"
+            },
+            {
+                name: "input",
+                category: "formulario",
+                description: "Crea controles de formulario interactivos para la entrada de datos del usuario.",
+                example: "<input type=\"text\" name=\"usuario\" placeholder=\"Nombre de usuario\">\n<input type=\"password\" name=\"clave\">\n<input type=\"submit\" value=\"Enviar\">",
+                attributes: ["type", "name", "value", "placeholder", "required"],
+                importance: "Alta"
+            },
+            {
+                name: "textarea",
+                category: "formulario",
+                description: "Crea un control de entrada de texto multilínea.",
+                example: "<textarea name=\"comentario\" rows=\"4\" cols=\"50\">Escribe aquí...</textarea>",
+                attributes: ["name", "rows", "cols", "placeholder", "maxlength"],
+                importance: "Alta"
+            },
+            {
+                name: "button",
+                category: "formulario",
+                description: "Crea un botón en el que se puede hacer clic.",
+                example: "<button type=\"button\">Haz clic</button>\n<button type=\"submit\">Enviar</button>",
+                attributes: ["type", "disabled", "onclick"],
+                importance: "Alta"
+            },
+            {
+                name: "label",
+                category: "formulario",
+                description: "Define una etiqueta para un elemento <input>, mejorando la accesibilidad.",
+                example: "<label for=\"nombre\">Nombre:</label>\n<input id=\"nombre\" type=\"text\">",
+                attributes: ["for"],
+                importance: "Alta"
+            },
+            {
+                name: "select",
+                category: "formulario",
+                description: "Crea una lista desplegable de opciones.",
+                example: "<select name=\"pais\">\n  <option value=\"mx\">México</option>\n  <option value=\"es\">España</option>\n</select>",
+                attributes: ["name", "multiple", "size"],
+                importance: "Alta"
+            },
+            {
+                name: "option",
+                category: "formulario",
+                description: "Define una opción dentro de un elemento <select>.",
+                example: "<option value=\"1\">Opción 1</option>\n<option value=\"2\" selected>Opción 2</option>",
+                attributes: ["value", "selected", "disabled"],
+                importance: "Alta"
+            },
+            {
+                name: "header",
+                category: "semantica",
+                description: "Representa el encabezado de una sección o página, generalmente contiene logotipos, menús de navegación, etc.",
+                example: "<header>\n  <h1>Mi sitio web</h1>\n  <nav>...</nav>\n</header>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "nav",
+                category: "semantica",
+                description: "Define una sección de navegación con enlaces a otras páginas o partes de la página actual.",
+                example: "<nav>\n  <a href=\"/\">Inicio</a>\n  <a href=\"/acerca\">Acerca</a>\n</nav>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "main",
+                category: "semantica",
+                description: "Representa el contenido principal único del documento. No debe haber más de un <main> por página.",
+                example: "<main>\n  <h1>Título principal</h1>\n  <p>Contenido principal aquí...</p>\n</main>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "section",
+                category: "semantica",
+                description: "Define una sección temática de contenido, generalmente con un encabezado.",
+                example: "<section>\n  <h2>Nuestros servicios</h2>\n  <p>Descripción de servicios...</p>\n</section>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "article",
+                category: "semantica",
+                description: "Representa contenido independiente y autónomo que podría ser distribuido por separado.",
+                example: "<article>\n  <h2>Título del artículo</h2>\n  <p>Contenido del artículo...</p>\n</article>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "aside",
+                category: "semantica",
+                description: "Representa contenido indirectamente relacionado con el contenido principal, como barras laterales.",
+                example: "<aside>\n  <h3>Noticias relacionadas</h3>\n  <p>Contenido adicional...</p>\n</aside>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "footer",
+                category: "semantica",
+                description: "Representa el pie de página de una sección o página, con información como autor, enlaces legales, etc.",
+                example: "<footer>\n  <p>© 2023 Mi empresa</p>\n  <a href=\"/privacidad\">Política de privacidad</a>\n</footer>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "strong",
+                category: "contenido",
+                description: "Indica que el texto tiene gran importancia, seriedad o urgencia. Se muestra en negrita por defecto.",
+                example: "<p>Este es un texto <strong>importante</strong>.</p>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "em",
+                category: "contenido",
+                description: "Marca texto que tiene énfasis. Se muestra en cursiva por defecto.",
+                example: "<p>Realmente <em>necesitas</em> leer esto.</p>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "br",
+                category: "contenido",
+                description: "Produce un salto de línea en el texto (retorno de carro). Elemento vacío.",
+                example: "<p>Línea 1<br>Línea 2<br>Línea 3</p>",
+                attributes: [],
+                importance: "Alta"
+            },
+            {
+                name: "hr",
+                category: "contenido",
+                description: "Representa una ruptura temática entre párrafos o una línea horizontal. Elemento vacío.",
+                example: "<p>Sección 1</p>\n<hr>\n<p>Sección 2</p>",
+                attributes: [],
+                importance: "Media"
+            },
+            {
+                name: "iframe",
+                category: "multimedia",
+                description: "Incrusta otro documento HTML dentro del documento actual.",
+                example: "<iframe src=\"https://ejemplo.com\" width=\"600\" height=\"400\"></iframe>",
+                attributes: ["src", "width", "height", "frameborder", "allowfullscreen"],
+                importance: "Media"
+            },
+            {
+                name: "video",
+                category: "multimedia",
+                description: "Incrusta contenido de video en el documento.",
+                example: "<video width=\"320\" height=\"240\" controls>\n  <source src=\"video.mp4\" type=\"video/mp4\">\n  Tu navegador no soporta video.\n</video>",
+                attributes: ["src", "controls", "width", "height", "autoplay", "loop"],
+                importance: "Alta"
+            },
+            {
+                name: "audio",
+                category: "multimedia",
+                description: "Incrusta contenido de audio en el documento.",
+                example: "<audio controls>\n  <source src=\"audio.mp3\" type=\"audio/mpeg\">\n  Tu navegador no soporta audio.\n</audio>",
+                attributes: ["src", "controls", "autoplay", "loop", "muted"],
+                importance: "Alta"
+            },
+            {
+                name: "svg",
+                category: "multimedia",
+                description: "Contenedor para gráficos SVG (Scalable Vector Graphics).",
+                example: "<svg width=\"100\" height=\"100\">\n  <circle cx=\"50\" cy=\"50\" r=\"40\" fill=\"blue\"/>\n</svg>",
+                attributes: ["width", "height", "viewBox"],
+                importance: "Media"
+            },
+            {
+                name: "canvas",
+                category: "multimedia",
+                description: "Se utiliza para dibujar gráficos, animaciones y otros elementos visuales mediante JavaScript.",
+                example: "<canvas id=\"miCanvas\" width=\"200\" height=\"100\"></canvas>",
+                attributes: ["width", "height", "id"],
+                importance: "Media"
+            }
+        ];
+
+        // Categorías disponibles
+        const categories = [
+            { id: "all", name: "Todas" },
+            { id: "estructura", name: "Estructura" },
+            { id: "semantica", name: "Semántica" },
+            { id: "contenido", name: "Contenido" },
+            { id: "formulario", name: "Formulario" },
+            { id: "multimedia", name: "Multimedia" }
+        ];
+
+        // Estado actual de filtro
+        let currentFilter = "all";
+
+        // Inicializar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            renderCategoryFilters();
+            renderTags(currentFilter);
+            
+            // Configurar eventos
+            document.getElementById('showAllBtn').addEventListener('click', function() {
+                currentFilter = "all";
+                updateActiveFilter();
+                renderTags(currentFilter);
+            });
+            
+            document.getElementById('generatePdfBtn').addEventListener('click', generatePDF);
+        });
+
+        // Renderizar filtros de categoría
+        function renderCategoryFilters() {
+            const filterContainer = document.getElementById('categoryFilter');
+            
+            categories.forEach(category => {
+                const button = document.createElement('button');
+                button.className = `category-btn ${category.id === 'all' ? 'active' : ''}`;
+                button.textContent = category.name;
+                button.dataset.category = category.id;
+                
+                button.addEventListener('click', function() {
+                    currentFilter = this.dataset.category;
+                    updateActiveFilter();
+                    renderTags(currentFilter);
+                });
+                
+                filterContainer.appendChild(button);
+            });
+        }
+
+        // Actualizar el filtro activo
+        function updateActiveFilter() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                if (btn.dataset.category === currentFilter) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Renderizar etiquetas según filtro
+        function renderTags(filter) {
+            const container = document.getElementById('tagsContainer');
+            container.innerHTML = '';
+            
+            // Filtrar etiquetas según categoría
+            const filteredTags = filter === 'all' 
+                ? htmlTags 
+                : htmlTags.filter(tag => tag.category === filter);
+            
+            // Crear tarjetas para cada etiqueta
+            filteredTags.forEach(tag => {
+                const card = document.createElement('div');
+                card.className = `tag-card ${tag.category}`;
+                
+                // Encontrar nombre de categoría para mostrar
+                const categoryName = categories.find(cat => cat.id === tag.category).name;
+                
+                card.innerHTML = `
+                    <div class="tag-importance">${tag.importance}</div>
+                    <div class="tag-header">
+                        <div class="tag-name">${tag.name}</div>
+                        <div class="tag-category">${categoryName}</div>
+                    </div>
+                    <div class="tag-description">${tag.description}</div>
+                    <div class="tag-example">${tag.example}</div>
+                    ${tag.attributes.length > 0 ? `
+                    <div class="tag-attributes">
+                        <div class="attributes-title">Atributos principales:</div>
+                        <div class="attributes-list">
+                            ${tag.attributes.map(attr => `<span class="attribute">${attr}</span>`).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+                
+                container.appendChild(card);
+            });
+            
+            // Si no hay resultados
+            if (filteredTags.length === 0) {
+                container.innerHTML = '<div class="loading">No se encontraron etiquetas para esta categoría</div>';
+            }
+        }
+
+        // Generar PDF
+        function generatePDF() {
+            // Cambiar texto del botón mientras se genera
+            const pdfButton = document.getElementById('generatePdfBtn');
+            const originalText = pdfButton.innerHTML;
+            pdfButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generando PDF...';
+            pdfButton.disabled = true;
+            
+            // Usar jsPDF para generar el PDF
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF({
+                orientation: 'portrait',
+                unit: 'mm',
+                format: 'a4'
+            });
+            
+            // Título del documento
+            doc.setFontSize(20);
+            doc.setTextColor(52, 152, 219); // Color azul
+            doc.text('Guía de Etiquetas HTML Esenciales', 105, 20, { align: 'center' });
+            
+            // Subtítulo
+            doc.setFontSize(12);
+            doc.setTextColor(100, 100, 100);
+            doc.text('Definiciones, ejemplos y atributos de las etiquetas HTML más utilizadas', 105, 30, { align: 'center' });
+            
+            // Información de categorías
+            doc.setFontSize(10);
+            doc.setTextColor(150, 150, 150);
+            const categoriasTexto = categories.filter(c => c.id !== "all").map(c => c.name).join(' • ');
+            doc.text(`Categorías: ${categoriasTexto}`, 105, 38, { align: 'center' });
+            
+            // Fecha
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-ES', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            doc.text(`Generado el ${dateStr}`, 105, 44, { align: 'center' });
+            
+            let yPos = 55;
+            let page = 1;
+            
+            // Agregar cada etiqueta al PDF
+            htmlTags.forEach((tag, index) => {
+                // Si estamos cerca del final de la página, añadir una nueva
+                if (yPos > 270) {
+                    doc.addPage();
+                    page++;
+                    yPos = 20;
+                    
+                    // Añadir número de página
+                    doc.setFontSize(10);
+                    doc.setTextColor(150, 150, 150);
+                    doc.text(`Página ${page}`, 200, 10, { align: 'right' });
+                }
+                
+                // Nombre de la etiqueta con color según categoría
+                const categoryColors = {
+                    'estructura': [52, 152, 219],
+                    'semantica': [46, 204, 113],
+                    'contenido': [230, 126, 34],
+                    'formulario': [155, 89, 182],
+                    'multimedia': [231, 76, 60]
+                };
+                
+                const color = categoryColors[tag.category] || [0, 0, 0];
+                doc.setFontSize(14);
+                doc.setTextColor(color[0], color[1], color[2]);
+                doc.text(`${index + 1}. ${tag.name}`, 20, yPos);
+                
+                // Importancia
+                doc.setFontSize(10);
+                doc.setTextColor(100, 100, 100);
+                doc.text(`Importancia: ${tag.importance}`, 180, yPos, { align: 'right' });
+                
+                // Categoría
+                const categoryName = categories.find(cat => cat.id === tag.category).name;
+                doc.text(`Categoría: ${categoryName}`, 20, yPos + 7);
+                
+                // Descripción
+                doc.setFontSize(11);
+                doc.setTextColor(0, 0, 0);
+                const descriptionLines = doc.splitTextToSize(tag.description, 170);
+                doc.text(descriptionLines, 20, yPos + 15);
+                
+                // Atributos (si tiene)
+                if (tag.attributes.length > 0) {
+                    doc.setFontSize(10);
+                    doc.setTextColor(80, 80, 80);
+                    const attrsText = `Atributos: ${tag.attributes.join(', ')}`;
+                    const attrsLines = doc.splitTextToSize(attrsText, 170);
+                    doc.text(attrsLines, 20, yPos + 15 + (descriptionLines.length * 5));
+                }
+                
+                // Ejemplo
+                const exampleStartY = tag.attributes.length > 0 ? 
+                    yPos + 22 + (descriptionLines.length * 5) + (tag.attributes.length * 5) : 
+                    yPos + 22 + (descriptionLines.length * 5);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(50, 50, 50);
+                doc.text('Ejemplo:', 20, exampleStartY);
+                
+                doc.setFont("courier");
+                const exampleLines = doc.splitTextToSize(tag.example, 170);
+                doc.text(exampleLines, 20, exampleStartY + 7);
+                
+                // Restaurar fuente
+                doc.setFont("helvetica");
+                
+                // Línea separadora
+                doc.setDrawColor(200, 200, 200);
+                const separatorY = exampleStartY + 12 + (exampleLines.length * 4);
+                doc.line(20, separatorY, 190, separatorY);
+                
+                // Actualizar posición Y para la siguiente etiqueta
+                yPos = separatorY + 5;
+            });
+            
+            // Página final con resumen
+            doc.addPage();
+            doc.setFontSize(16);
+            doc.setTextColor(52, 152, 219);
+            doc.text('Resumen por Categorías', 105, 20, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(0, 0, 0);
+            
+            let resumenY = 35;
+            categories.filter(c => c.id !== "all").forEach(category => {
+                const tagsInCategory = htmlTags.filter(tag => tag.category === category.id);
+                
+                doc.setFontSize(14);
+                doc.setTextColor(52, 152, 219);
+                doc.text(`${category.name} (${tagsInCategory.length})`, 20, resumenY);
+                
+                doc.setFontSize(10);
+                doc.setTextColor(80, 80, 80);
+                
+                // Mostrar las etiquetas de esta categoría
+                const tagNames = tagsInCategory.map(tag => tag.name).join(', ');
+                const tagLines = doc.splitTextToSize(tagNames, 170);
+                doc.text(tagLines, 25, resumenY + 8);
+                
+                resumenY += 15 + (tagLines.length * 4);
+            });
+            
+            // Consejos finales
+            doc.setFontSize(14);
+            doc.setTextColor(46, 204, 113);
+            doc.text('Consejos para usar HTML correctamente:', 20, resumenY + 10);
+            
+            doc.setFontSize(10);
+            doc.setTextColor(0, 0, 0);
+            const consejos = [
+                "1. Usa elementos semánticos siempre que sea posible",
+                "2. Asegúrate de que tu HTML sea válido y accesible",
+                "3. Utiliza atributos alt en todas las imágenes",
+                "4. Estructura tu contenido jerárquicamente con encabezados",
+                "5. Prueba tu sitio en diferentes navegadores",
+                "6. Optimiza las imágenes y recursos multimedia",
+                "7. Valida tu código HTML regularmente"
+            ];
+            
+            consejos.forEach((consejo, i) => {
+                doc.text(consejo, 25, resumenY + 20 + (i * 6));
+            });
+            
+            // Guardar el PDF
+            doc.save('guia-etiquetas-html.pdf');
+            
+            // Restaurar botón
+            pdfButton.innerHTML = originalText;
+            pdfButton.disabled = false;
+            
+            // Mostrar notificación
+            alert('PDF generado correctamente. Se descargará automáticamente.');
+        }
+    </script>
+</body>
+</html>
